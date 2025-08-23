@@ -24,6 +24,19 @@ Para isso, foi construída uma **API em .NET 8** para gerenciamento de produtos 
 
 ---
 
+## 🖼️ Arquitetura do Software
+
+### Contexto — C4
+![Contexto — C4](./docs/images/contexto-c4.png)
+
+### Componentes da API — C4
+![Componentes da API — C4](./docs/images/componentes-c4.png)
+
+### Visão de Classes (UML)
+![Visão de Classes (UML)](./docs/images/uml-classes.png)
+
+---
+
 ## 📂 Estrutura de Pastas
 
 ```text
