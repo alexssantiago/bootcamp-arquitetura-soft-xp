@@ -17,15 +17,11 @@ public sealed class Product
         Price = price;
     }
 
-    public void Activate()
+    public Product() { }
+
+    public void SetActive(bool active = true)
     {
-        Active = true;
-        UpdatedAt = DateTime.Now;
-    }
-    
-    public void Deactivate()
-    {
-        Active = false;
+        Active = active;
         UpdatedAt = DateTime.Now;
     }
 }

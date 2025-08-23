@@ -13,6 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPE.ArquiteturaSoftware.Des
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC", "src\XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC\XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC.csproj", "{8D5C8386-B448-A70F-F835-8E2F1FD38EA0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		devops\.env = devops\.env
+		devops\docker-compose.yml = devops\docker-compose.yml
+		devops\Dockerfile = devops\Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

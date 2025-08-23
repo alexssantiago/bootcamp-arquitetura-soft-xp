@@ -1,24 +1,25 @@
+using XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.DocumentTitle = "Bootcamp: Arquiteto(a) de Software — Desafio Final";
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+        c.DisplayRequestDuration();
+        c.DefaultModelsExpandDepth(-1);
+    });
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 await app.RunAsync();
