@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -19,6 +22,37 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
+
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = ctx =>
+            {
+                ctx.ProblemDetails.Extensions["traceId"] = ctx.HttpContext.TraceIdentifier;
+                ctx.ProblemDetails.Title ??= "Unexpected error";
+            };
+        });
+
+        services.AddExceptionHandler(options =>
+        {
+            options.ExceptionHandler = async context =>
+            {
+                var feature = context.Features.Get<IExceptionHandlerFeature>();
+                var ex = feature?.Error;
+
+                var problem = new ProblemDetails
+                {
+                    Title = "Unhandled exception",
+                    Detail = ex?.Message,
+                    Status = StatusCodes.Status500InternalServerError,
+                    Instance = context.Request.Path
+                };
+                problem.Extensions["traceId"] = context.TraceIdentifier;
+
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = "application/problem+json";
+                await context.Response.WriteAsJsonAsync(problem);
+            };
+        });
 
         services.AddRouting(options => options.LowercaseUrls = true);
 

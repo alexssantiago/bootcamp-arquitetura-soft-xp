@@ -1,5 +1,5 @@
-﻿using Dapper;
-using FluentResults;
+﻿using CSharpFunctionalExtensions;
+using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -9,9 +9,10 @@ using XPE.ArquiteturaSoftware.DesafioFinal.Application.Responses;
 
 namespace XPE.ArquiteturaSoftware.DesafioFinal.Application.Services;
 
-public sealed class HealthService(ILogger<HealthService> logger,
-                                  IDbConnection connection,
-                                  IDistributedCache cache) : IHealthService
+public sealed class HealthService(
+    ILogger<HealthService> logger,
+    IDbConnection connection,
+    IDistributedCache cache) : IHealthService
 {
     public async Task<Result<HealthCheckResponse>> CheckDatabaseAsync(CancellationToken ct)
     {
@@ -20,7 +21,7 @@ public sealed class HealthService(ILogger<HealthService> logger,
             var result = await connection.ExecuteScalarAsync<int>(
                 new CommandDefinition("SELECT 1", cancellationToken: ct));
 
-            return Result.Ok(new HealthCheckResponse(
+            return Result.Success(new HealthCheckResponse(
                 Status: "healthy",
                 Dependency: "mysql",
                 Result: result
@@ -31,17 +32,7 @@ public sealed class HealthService(ILogger<HealthService> logger,
             logger.LogError(ex, "[{Service}][{Method}] Database unavailable: {Message}",
                 nameof(HealthService), nameof(CheckDatabaseAsync), ex.Message);
 
-            var response = new HealthCheckResponse(
-                Status: "unhealthy",
-                Dependency: "mysql",
-                Error: ex.Message
-            );
-
-            var error = new Error("Database unavailable")
-                .CausedBy(ex)
-                .WithMetadata("response", response);
-
-            return Result.Fail<HealthCheckResponse>(error);
+            return Result.Failure<HealthCheckResponse>(ex.Message);
         }
     }
 
@@ -64,22 +55,14 @@ public sealed class HealthService(ILogger<HealthService> logger,
 
             if (roundtrip == payload)
             {
-                return Result.Ok(new HealthCheckResponse(
+                return Result.Success(new HealthCheckResponse(
                     Status: "healthy",
                     Dependency: "redis",
                     RoundtripMs: sw.ElapsedMilliseconds
                 ));
             }
 
-            var mismatch = new HealthCheckResponse(
-                Status: "unhealthy",
-                Dependency: "redis",
-                Error: "Round-trip value mismatch."
-            );
-
-            return Result.Fail<HealthCheckResponse>(
-                new Error("Round-trip value mismatch.")
-                    .WithMetadata("response", mismatch));
+            return Result.Failure<HealthCheckResponse>("Round-trip value mismatch.");
         }
         catch (Exception ex)
         {
@@ -87,16 +70,7 @@ public sealed class HealthService(ILogger<HealthService> logger,
             logger.LogError(ex, "[{Service}][{Method}] Redis unavailable: {Message}",
                 nameof(HealthService), nameof(CheckRedisAsync), ex.Message);
 
-            var response = new HealthCheckResponse(
-                Status: "unhealthy",
-                Dependency: "redis",
-                Error: ex.Message
-            );
-
-            return Result.Fail<HealthCheckResponse>(
-                new Error("Redis unavailable")
-                    .CausedBy(ex)
-                    .WithMetadata("response", response));
+            return Result.Failure<HealthCheckResponse>(ex.Message);
         }
     }
 }

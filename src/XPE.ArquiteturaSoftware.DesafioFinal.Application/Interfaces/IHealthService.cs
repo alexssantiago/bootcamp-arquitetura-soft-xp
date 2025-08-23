@@ -1,4 +1,4 @@
-﻿using FluentResults;
+﻿using CSharpFunctionalExtensions;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Responses;
 
 namespace XPE.ArquiteturaSoftware.DesafioFinal.Application.Interfaces;

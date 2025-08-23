@@ -1,4 +1,4 @@
-﻿using FluentResults;
+﻿using CSharpFunctionalExtensions;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Requests;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Responses;
 
