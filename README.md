@@ -22,6 +22,8 @@ Para isso, foi construída uma **API em .NET 8** para gerenciamento de produtos 
 - **CSharpFunctionalExtensions** (result pattern)  
 - **Docker Compose** para orquestração  
 
+📎 [Enunciado do exercício](./docs/enunciado.pdf)
+
 ---
 
 ## 🖼️ Arquitetura do Software
