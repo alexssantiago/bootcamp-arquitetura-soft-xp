@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{02EA68
 		devops\Dockerfile = devops\Dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPE.ArquiteturaSoftware.DesafioFinal.Tests", "tests\XPE.ArquiteturaSoftware.DesafioFinal.Tests\XPE.ArquiteturaSoftware.DesafioFinal.Tests.csproj", "{A5819D43-E5B5-4AA1-B303-590C1902761C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{8D5C8386-B448-A70F-F835-8E2F1FD38EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D5C8386-B448-A70F-F835-8E2F1FD38EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D5C8386-B448-A70F-F835-8E2F1FD38EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5819D43-E5B5-4AA1-B303-590C1902761C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5819D43-E5B5-4AA1-B303-590C1902761C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5819D43-E5B5-4AA1-B303-590C1902761C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5819D43-E5B5-4AA1-B303-590C1902761C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

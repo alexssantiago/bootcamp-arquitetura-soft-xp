@@ -2,7 +2,7 @@
 
 public sealed record CreateProductRequest
 (
-    string Name, 
-    string Description, 
+    string Name,
+    string Description,
     decimal Price
 );

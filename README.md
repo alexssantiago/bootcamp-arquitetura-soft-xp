@@ -89,6 +89,15 @@ XPE.ArquiteturaSoftware.DesafioFinal/
 │  └─ XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC/      # Infraestrutura (injeção de dependências)
 │     └─ ServiceCollectionExtensions.cs                    # Registro de DI (validators, repos, services, redis, dapper, swagger, filtros)
 │
+├─ tests/
+│  └─ XPE.ArquiteturaSoftware.DesafioFinal.Tests/          # Projeto único de testes automatizados
+│     ├─ Services/
+│     │  └─ ProductServiceTests.cs                         # Testes unitários de ProductService
+│     ├─ Models/
+│     │  └─ ProductTests.cs                                # Testes unitários da entidade Product
+│     └─ Extensions/
+│        └─ CacheExtensions.cs                             # Helpers e extensões para mock de cache
+│
 ├─ devops/
 │  ├─ docker-compose.yml                                   # API, MySQL, Redis
 │  ├─ Dockerfile                                           # Build da API
@@ -142,6 +151,10 @@ XPE.ArquiteturaSoftware.DesafioFinal/
 ## ✅ Observações Finais
 - **Cache Redis**: leituras em cache, invalidação automática em Create/Update/Delete.  
 - **Tratamento de erros**: global via `UseExceptionHandler` + ProblemDetails.  
-- **Responsabilidades isoladas**: Controllers, Services, Models, Repositories, Mappers, Validators.  
+- **Responsabilidades isoladas**: Controllers, Services, Models, Repositories, Mappers, Validators e IoC.  
+- **Testes Automatizados**:  
+  - Centralizados em um único projeto (`XPE.ArquiteturaSoftware.DesafioFinal.Tests`).  
+  - Estruturados em **Services**, **Models** e **Extensions**.  
+  - Utilizam **xUnit**, **FluentAssertions**, **Moq** e **Bogus** para validar comportamentos de negócio, regras de cache e invariantes de domínio.  
 
 ---
