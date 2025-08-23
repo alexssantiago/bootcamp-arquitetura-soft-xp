@@ -4,7 +4,6 @@ using XPE.ArquiteturaSoftware.DesafioFinal.Application.Interfaces;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Mappers;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Requests;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Responses;
-using XPE.ArquiteturaSoftware.DesafioFinal.Domain.Models;
 using XPE.ArquiteturaSoftware.DesafioFinal.Infra.Data.Interfaces;
 
 namespace XPE.ArquiteturaSoftware.DesafioFinal.Application.Services;
@@ -43,11 +42,7 @@ public sealed class ProductService(ILogger<ProductService> logger,
             if (product is null)
                 return Result.Failure<ProductResponse>("Not found");
 
-            var resp = new ProductResponse(
-                product.Id, product.Name, product.Description,
-                product.Price, product.Active, product.CreatedAt, product.UpdatedAt);
-
-            return Result.Success(resp);
+            return Result.Success(product.ToResponse());
         }
         catch (Exception ex)
         {
@@ -64,10 +59,7 @@ public sealed class ProductService(ILogger<ProductService> logger,
         try
         {
             var list = await repository.GetAllAsync();
-            var resp = list.Select(p => new ProductResponse(
-                p.Id, p.Name, p.Description, p.Price, p.Active, p.CreatedAt, p.UpdatedAt));
-
-            return Result.Success(resp);
+            return Result.Success(list.ToResponse());
         }
         catch (Exception ex)
         {
@@ -84,10 +76,7 @@ public sealed class ProductService(ILogger<ProductService> logger,
         try
         {
             var list = await repository.FindByNameAsync(name);
-            var resp = list.Select(p => new ProductResponse(
-                p.Id, p.Name, p.Description, p.Price, p.Active, p.CreatedAt, p.UpdatedAt));
-
-            return Result.Success(resp);
+            return Result.Success(list.ToResponse());
         }
         catch (Exception ex)
         {
@@ -119,8 +108,7 @@ public sealed class ProductService(ILogger<ProductService> logger,
     {
         try
         {
-            var updated = new Product(request.Name, request.Description, request.Price);
-            updated.SetActive(request.Active);
+            var updated = request.MapToModel();
 
             var ok = await repository.UpdateAsync(id, updated);
             return ok ? Result.Success() : Result.Failure("Not found");
