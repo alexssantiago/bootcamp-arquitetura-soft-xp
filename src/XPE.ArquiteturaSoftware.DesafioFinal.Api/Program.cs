@@ -1,8 +1,11 @@
+using Serilog;
 using XPE.ArquiteturaSoftware.DesafioFinal.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterServices(builder.Configuration);
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
@@ -18,6 +21,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthorization();

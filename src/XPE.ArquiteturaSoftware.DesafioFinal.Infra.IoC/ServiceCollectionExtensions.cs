@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
+using Serilog;
+using Serilog.Debugging;
 using System.Data;
 using System.Reflection;
 using XPE.ArquiteturaSoftware.DesafioFinal.Application.Interfaces;
@@ -22,6 +24,17 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
+
+        SelfLog.Enable(Console.Error);
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.Seq(
+                serverUrl: configuration.GetConnectionString("Seq") ?? "http://localhost:5341"
+            )
+            .CreateLogger();
 
         services.AddProblemDetails(options =>
         {
